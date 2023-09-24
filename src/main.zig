@@ -117,7 +117,7 @@ pub fn defineAndRegisterClass(name: [:0]const u8, superclass: Class, ivars: anyt
         if (class_addIvar(class, ivar_name_terminated[0..ivar_name.len :0], @sizeOf(ivar_type), @alignOf(ivar_type), type_enc_str) == false) {
             return Error.FailedToAddIvarToClass;
         }
-        std.mem.set(u8, &type_encoding_buf, 0);
+        @memset(&type_encoding_buf, 0);
     }
 
     // add methods to class
@@ -141,7 +141,7 @@ pub fn defineAndRegisterClass(name: [:0]const u8, superclass: Class, ivars: anyt
         if (result == false) {
             return Error.FailedToAddMethodToClass;
         }
-        std.mem.set(u8, &type_encoding_buf, 0);
+        @memset(&type_encoding_buf, 0);
     }
 
     registerClassPair(class);

@@ -81,8 +81,8 @@ fn writeEncodingForTypeInternal(comptime MaybeT: ?type, levels_of_indirection: *
         else => switch (@typeInfo(T)) {
             .Fn => |fn_info| {
                 try writeEncodingForTypeInternal(fn_info.return_type, levels_of_indirection, writer);
-                inline for (fn_info.args) |arg| {
-                    try writeEncodingForTypeInternal(arg.arg_type, levels_of_indirection, writer);
+                inline for (fn_info.params) |param| {
+                    try writeEncodingForTypeInternal(param.type, levels_of_indirection, writer);
                 }
             },
             .Array => |arr_info| {
@@ -123,7 +123,7 @@ fn writeEncodingForTypeInternal(comptime MaybeT: ?type, levels_of_indirection: *
 }
 
 fn writeTypeEncodingToken(token: TypeEncodingToken, writer: anytype) !void {
-    try writer.writeByte(@enumToInt(token));
+    try writer.writeByte(@intFromEnum(token));
 }
 
 test "write encoding for array" {
